@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+option csharp_namespace = "SharpJBridge.IPC";
+package io.github.sharpjbridge.ipc;
+
+//Represents the
+enum SourceLanguage {
+  CSharp = 0;
+  Java = 1;
+}
+
+//This represents a Java UUID and .NET GUID
+message ObjectId {
+  int64 mostSignificant = 1;
+  int64 leastSignificant = 2;
+}
+
+message RemoveValue {
+  oneof value {
+    bool boolean = 1;
+    uint32 byte = 2;
+    uint32 char = 3;
+    int32 short = 4;
+    uint32 int = 5;
+    int64 long = 6;
+    float float = 7;
+    double double = 8;
+    ObjectId object = 9;
+  }
+  SourceLanguage language = 10;
+}
