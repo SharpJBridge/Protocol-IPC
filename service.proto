@@ -6,5 +6,17 @@ package io.github.sharpjbridge.ipc;
 
 import "model.proto";
 
+message RemoteValueResult {
+  RemoteValue value = 1;
+  bool isException = 2;
+}
+
+message ConstructRequest {
+  string className = 1;
+  repeated string argumentTypes = 2;
+  repeated RemoteValue arguments = 3;
+}
+
 service RemoteInvocation {
+  rpc ConstructObject(ConstructRequest) returns (RemoteValueResult);
 }

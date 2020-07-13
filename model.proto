@@ -16,7 +16,7 @@ message ObjectId {
   int64 leastSignificant = 2;
 }
 
-message RemoveValue {
+message RemoteValue {
   oneof value {
     bool boolean = 1;
     uint32 byte = 2;
@@ -26,7 +26,8 @@ message RemoveValue {
     int64 long = 6;
     float float = 7;
     double double = 8;
-    ObjectId object = 9;
+    string string = 9;
+    ObjectId object = 10;
   }
-  SourceLanguage language = 10;
+  SourceLanguage language = 11;
 }
