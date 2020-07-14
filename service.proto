@@ -20,17 +20,40 @@ message ConstructRequest {
 
 message MethodRequest {
   oneof source {
+    //Used on Static requests
     string className = 1;
+    //Used on instance requests
     RemoteValue object = 2;
   }
+  //The name of the method to call
   string methodName = 3;
+  //The types of arguments on this method
   repeated string argumentTypes = 4;
   repeated RemoteValue arguments = 5;
 }
 
+message FieldRequest {
+  oneof source {
+    //Used on Static requests
+    string className = 1;
+    //Used on instance requests
+    RemoteValue object = 2;
+  }
+  string fieldName = 3;
+  RemoteValue newValue = 4;
+}
+
 service RemoteInvocation {
   rpc ConstructObject(ConstructRequest) returns (RemoteValueResult);
+
   rpc InvokeInstanceMethod(MethodRequest) returns (RemoteValueResult);
   rpc InvokeStaticMethod(MethodRequest) returns (RemoteValueResult);
+
+  rpc GetInstanceField(FieldRequest) returns (RemoteValueResult);
+  rpc SetInstanceField(FieldRequest) returns (RemoteValueResult);
+
+  rpc GetStaticField(FieldRequest) returns (RemoteValueResult);
+  rpc SetStaticField(FieldRequest) returns (RemoteValueResult);
+
   rpc ReleaseObject(ObjectId) returns (google.protobuf.Empty);
 }
