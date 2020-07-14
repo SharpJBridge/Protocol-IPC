@@ -4,7 +4,7 @@ option java_multiple_files = true;
 option csharp_namespace = "SharpJBridge.IPC";
 package io.github.sharpjbridge.ipc;
 
-//Represents the
+//Represents the source language of a remote value
 enum SourceLanguage {
   CSharp = 0;
   Java = 1;
@@ -21,8 +21,8 @@ message RemoteValue {
     bool boolean = 1;
     uint32 byte = 2;
     uint32 char = 3;
-    int32 short = 4;
-    uint32 int = 5;
+    uint32 short = 4;
+    sint32 int = 5;
     int64 long = 6;
     float float = 7;
     double double = 8;
