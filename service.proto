@@ -5,6 +5,7 @@ option csharp_namespace = "SharpJBridge.IPC";
 package io.github.sharpjbridge.ipc;
 
 import "model.proto";
+import "google/protobuf/empty.proto";
 
 message RemoteValueResult {
   RemoteValue value = 1;
@@ -30,4 +31,5 @@ message MethodRequest {
 service RemoteInvocation {
   rpc ConstructObject(ConstructRequest) returns (RemoteValueResult);
   rpc InvokeInstanceMethod(MethodRequest) returns (RemoteValueResult);
+  rpc ReleaseObject(ObjectId) returns (google.protobuf.Empty);
 }
