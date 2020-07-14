@@ -17,6 +17,17 @@ message ConstructRequest {
   repeated RemoteValue arguments = 3;
 }
 
+message MethodRequest {
+  oneof source {
+    string className = 1;
+    RemoteValue object = 2;
+  }
+  string methodName = 3;
+  repeated string argumentTypes = 4;
+  repeated RemoteValue arguments = 5;
+}
+
 service RemoteInvocation {
   rpc ConstructObject(ConstructRequest) returns (RemoteValueResult);
+  rpc InvokeInstanceMethod(MethodRequest) returns (RemoteValueResult);
 }
