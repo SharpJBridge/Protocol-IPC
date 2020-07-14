@@ -31,5 +31,6 @@ message MethodRequest {
 service RemoteInvocation {
   rpc ConstructObject(ConstructRequest) returns (RemoteValueResult);
   rpc InvokeInstanceMethod(MethodRequest) returns (RemoteValueResult);
+  rpc InvokeStaticMethod(MethodRequest) returns (RemoteValueResult);
   rpc ReleaseObject(ObjectId) returns (google.protobuf.Empty);
 }
