@@ -43,7 +43,14 @@ message FieldRequest {
   RemoteValue newValue = 4;
 }
 
+//Represents a public key used to decrypt the data
+message EncryptionKey {
+  bytes key = 1;
+}
+
 service RemoteInvocation {
+  rpc PerformKeyExchange(EncryptionKey) returns (EncryptionKey);
+
   rpc ConstructObject(ConstructRequest) returns (RemoteValueResult);
 
   rpc InvokeInstanceMethod(MethodRequest) returns (RemoteValueResult);
