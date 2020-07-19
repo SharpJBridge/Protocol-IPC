@@ -1,66 +1,75 @@
-syntax = "proto3";
+  syntax = "proto3";
 
-option java_multiple_files = true;
-option csharp_namespace = "SharpJBridge.IPC";
-package io.github.sharpjbridge.ipc;
+  option java_multiple_files = true;
+  option csharp_namespace = "SharpJBridge.IPC";
+  package io.github.sharpjbridge.ipc;
 
-import "model.proto";
-import "google/protobuf/empty.proto";
+  import "model.proto";
+  import "google/protobuf/empty.proto";
 
-message RemoteValueResult {
-  RemoteValue value = 1;
-  bool isException = 2;
-}
-
-message ConstructRequest {
-  string className = 1;
-  repeated string argumentTypes = 2;
-  repeated RemoteValue arguments = 3;
-}
-
-message MethodRequest {
-  oneof source {
-    //Used on Static requests
-    string className = 1;
-    //Used on instance requests
-    RemoteValue object = 2;
+  message RemoteValueResult {
+    RemoteValue value = 1;
+    bool isException = 2;
   }
-  //The name of the method to call
-  string methodName = 3;
-  //The types of arguments on this method
-  repeated string argumentTypes = 4;
-  repeated RemoteValue arguments = 5;
-}
 
-message FieldRequest {
-  oneof source {
-    //Used on Static requests
+  message ConstructRequest {
     string className = 1;
-    //Used on instance requests
-    RemoteValue object = 2;
+    repeated string argumentTypes = 2;
+    repeated RemoteValue arguments = 3;
   }
-  string fieldName = 3;
-  RemoteValue newValue = 4;
-}
 
-//Represents a public key used to decrypt the data
-message EncryptionKey {
-  bytes key = 1;
-}
+  message MethodRequest {
+    oneof source {
+      //Used on Static requests
+      string className = 1;
+      //Used on instance requests
+      RemoteValue object = 2;
+    }
+    //The name of the method to call
+    string methodName = 3;
+    //The types of arguments on this method
+    repeated string argumentTypes = 4;
+    repeated RemoteValue arguments = 5;
+  }
 
-service RemoteInvocation {
-  rpc PerformKeyExchange(EncryptionKey) returns (EncryptionKey);
+  message FieldRequest {
+    oneof source {
+      //Used on Static requests
+      string className = 1;
+      //Used on instance requests
+      RemoteValue object = 2;
+    }
+    string fieldName = 3;
+    RemoteValue newValue = 4;
+  }
 
-  rpc ConstructObject(ConstructRequest) returns (RemoteValueResult);
+  //Represents a public key used to decrypt the data
+  message EncryptionKey {
+    bytes key = 1;
+  }
 
-  rpc InvokeInstanceMethod(MethodRequest) returns (RemoteValueResult);
-  rpc InvokeStaticMethod(MethodRequest) returns (RemoteValueResult);
+  message FileLoadRequest {
+    oneof file {
+      string path = 1;
+      bytes contents = 2;
+    }
+  }
 
-  rpc GetInstanceField(FieldRequest) returns (RemoteValueResult);
-  rpc SetInstanceField(FieldRequest) returns (RemoteValueResult);
+  service RemoteInvocation {
+    rpc PerformKeyExchange(EncryptionKey) returns (EncryptionKey);
 
-  rpc GetStaticField(FieldRequest) returns (RemoteValueResult);
-  rpc SetStaticField(FieldRequest) returns (RemoteValueResult);
+    rpc LoadFile(FileLoadRequest) returns (RemoteValueResult);
 
-  rpc ReleaseObject(ObjectId) returns (google.protobuf.Empty);
-}
+    rpc ConstructObject(ConstructRequest) returns (RemoteValueResult);
+
+    rpc InvokeInstanceMethod(MethodRequest) returns (RemoteValueResult);
+    rpc InvokeStaticMethod(MethodRequest) returns (RemoteValueResult);
+
+    rpc GetInstanceField(FieldRequest) returns (RemoteValueResult);
+    rpc SetInstanceField(FieldRequest) returns (RemoteValueResult);
+
+    rpc GetStaticField(FieldRequest) returns (RemoteValueResult);
+    rpc SetStaticField(FieldRequest) returns (RemoteValueResult);
+
+    rpc ReleaseObject(ObjectId) returns (google.protobuf.Empty);
+  }
