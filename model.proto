@@ -1,0 +1,40 @@
+syntax = "proto3";
+option java_package = "io.github.sharpjbridge.gateway.grpc";
+option java_multiple_files = true;
+
+message Empty {}
+
+message SJBProgrammingLanguage {
+  string name = 1;
+  string runtimeVersion = 2;
+}
+
+message ObjectId {
+  int64 mostSignificant = 1;
+  int64 leastSignificant = 2;
+}
+
+message RemoteValueArray {
+  repeated RemoteValue object = 1;
+}
+
+message RemoteValue {
+  oneof value {
+    bool null = 1;
+    bool boolean = 2;
+    uint32 byte = 3;
+    uint32 char = 4;
+    uint32 short = 5;
+    sint32 int = 6;
+    int64 long = 7;
+    float float = 8;
+    double double = 9;
+    string string = 10;
+    ObjectId object = 11;
+    RemoteValueArray array = 12;
+  }
+}
+
+service SJBService {
+  rpc getProgrammingLanguage(Empty) returns (SJBProgrammingLanguage);
+}
