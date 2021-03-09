@@ -4,12 +4,6 @@ option java_multiple_files = true;
 option csharp_namespace = "SharpJBridge.IPC";
 package io.github.sharpjbridge.ipc;
 
-//Represents the source language of a remote value
-enum SourceLanguage {
-  CSharp = 0;
-  Java = 1;
-}
-
 //This represents a Java UUID and .NET GUID
 message ObjectId {
   int64 mostSignificant = 1;
@@ -34,5 +28,4 @@ message RemoteValue {
     ObjectId object = 10;
     RemoteValueArray array = 11;
   }
-  SourceLanguage language = 12;
 }
