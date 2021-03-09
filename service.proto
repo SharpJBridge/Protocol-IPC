@@ -56,8 +56,6 @@
   }
 
   service RemoteInvocation {
-    rpc PerformKeyExchange(EncryptionKey) returns (EncryptionKey);
-
     rpc LoadFile(FileLoadRequest) returns (RemoteValueResult);
 
     rpc ConstructObject(ConstructRequest) returns (RemoteValueResult);
